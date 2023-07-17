@@ -11,11 +11,10 @@ export const Articles = () => {
         })
     }, [])
     return (<>
-        <ul className="flex flex-wrap">
+        <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {articles.map((article) => {
                 return  <Article key={article.article_id} article={article} />
             })}
-           
         </ul>
-        </>)
+    </>)
 }

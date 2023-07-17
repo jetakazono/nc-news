@@ -3,7 +3,9 @@ function App() {
 
   return (
     <>
-      <Articles />
+      <main className="wrapper">
+        <Articles />
+      </main>
     </>
   )
 }
