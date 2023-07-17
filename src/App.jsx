@@ -1,8 +1,9 @@
-
+import { Articles } from "./components"
 function App() {
 
   return (
     <>
+      <Articles />
     </>
   )
 }
