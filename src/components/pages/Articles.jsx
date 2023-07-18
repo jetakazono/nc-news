@@ -11,6 +11,7 @@ export const Articles = () => {
     const { topic } = useParams()
     
     useEffect(() => {
+        setApiError(null)
         getArticles(topic).then((articles) => {
             setArticles(articles)
             setIsLoading(false)
