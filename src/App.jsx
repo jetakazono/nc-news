@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { Header, Articles, Article, Footer } from "./components"
+import { Header, Articles, Article, Footer, Error } from "./components"
 function App() {
   return (
     <>
@@ -9,6 +9,10 @@ function App() {
         <Route path="/" element={<Articles />} />
         <Route path="/articles/:article_id" element={<Article />} />
         <Route path="/:topic" element={<Articles />} />
+        <Route path="*" element={<Error  
+            errorStatus={"4 0 4"} 
+            errorMessage={"Sorry, We couldn't find what you are looking for!"}
+        />} />
       </Routes>
     </main>
     <Footer/>

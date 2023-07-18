@@ -2,10 +2,11 @@ import { useEffect, useState } from "react"
 import { getArticles } from "../../utils/api"
 import { ArticlesCard } from "../index"
 import { useParams } from 'react-router-dom';
+import { Error } from "../Error";
 
 export const Articles = () => {
     const [articles, setArticles] = useState([])
-    const [isError, setIsError] = useState(false)
+    const [apiError, setApiError] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const { topic } = useParams()
     
@@ -13,17 +14,20 @@ export const Articles = () => {
         getArticles(topic).then((articles) => {
             setArticles(articles)
             setIsLoading(false)
-        }).catch((err) => setIsError(true))
+        })
     }, [topic])
     
     useEffect(() => {
         getArticles(topic).then((articles) => {
             setArticles(articles)
-        })
+        }).catch((err) => setApiError(err))
     }, [])
 
-    if (isError) {
-        return <p>ERROR !!!!</p> 
+    if (apiError) {
+        return <Error  
+            errorStatus={apiError.response.status} 
+            errorMessage={apiError.response.data.msg}
+        />
     } else if (isLoading) {
         return <p>loading...</p>
     } else {

@@ -3,9 +3,8 @@ import { Link } from "react-router-dom"
 export const ArticlesCard = ({ article }) => {
 
     return (
-        <li className="overflow-hidden rounded-lg shadow transition hover:shadow-lg relative">
-            <Link to={`/articles/${article.article_id}`}>
-            <div className="bg-white h-full flex flex-col">
+        <li className="overflow-hidden rounded-lg shadow transition hover:shadow-lg relative transform hover:-translate-y-2">
+            <Link to={`/articles/${article.article_id}`} className="bg-white h-full flex flex-col">
                 <img src={article.article_img_url} alt="" className="h-56 w-full object-cover"/>
                 <div className="p-4 flex flex-1 flex-col justify-between">
                     <h2 className="mt-0.5 text-lg text-gray-900 ">
@@ -31,7 +30,6 @@ export const ArticlesCard = ({ article }) => {
                         <span>{article.comment_count}</span>
                     </footer>
                 </div>
-            </div>
             </Link>
         </li>
     )

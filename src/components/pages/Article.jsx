@@ -2,17 +2,31 @@ import { useEffect, useState } from "react"
 import { getArticleById } from "../../utils/api"
 import { useParams } from 'react-router-dom';
 import { formatDate } from "../../utils/formating";
+import { Error } from "../Error";
 
 export const Article = () => {
     const { article_id } = useParams()
-
     const [article, setArticle] = useState({})
+    const [apiError, setApiError] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
+
     useEffect(() => {
-        getArticleById(article_id).then((res) => {
-            setArticle(res)
+        getArticleById(article_id).then((singleArticle) => {
+            setArticle(singleArticle)
+            setIsLoading(false)
         })
-    },[])
-   
+        .catch((err) => {
+            setApiError(err)
+        })
+    },[article_id])
+
+    if(apiError){
+        return <Error  
+        errorStatus={apiError.response.status} 
+        errorMessage={apiError.response.data.msg} />
+    } else if (isLoading) {
+        return <p>loding..</p>
+   } else {
     return (<>
         <section>
             <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
@@ -48,4 +62,6 @@ export const Article = () => {
             </div>
         </section>
     </>)
+   }
+    
 }
