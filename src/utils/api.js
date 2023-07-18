@@ -10,6 +10,7 @@ export const getArticles = (topic) => {
             return data.articles
         })
     }
+
     return instance.get("/articles").then(({ data }) => {
         return data.articles
     })
@@ -30,5 +31,11 @@ export const getTopics = () => {
 export const getUsers = () => {
     return instance.get(`/users`).then(({ data }) => {
         return data.users
+    })
+}
+
+export const getCommentsByArticleId = (article_id) => {
+    return instance.get(`/articles/${article_id}/comments`).then(({ data }) => {
+        return data.comments
     })
 }
