@@ -1,5 +1,6 @@
-export const CommentsListItem = ({comment}) => {
-
+export const CommentsListItem = ({ comment }) => {
+    console.log(comment);
+        console.log(comment)
     return (
         <li>
             <img src="" alt="" />
