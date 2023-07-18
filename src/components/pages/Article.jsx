@@ -25,7 +25,7 @@ export const Article = () => {
         errorStatus={apiError.response.status} 
         errorMessage={apiError.response.data.msg} />
     } else if (isLoading) {
-        return <p>loding..</p>
+        return <p>Loading..</p>
    } else {
     return (<>
         <section>
