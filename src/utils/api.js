@@ -39,3 +39,9 @@ export const getCommentsByArticleId = (article_id) => {
         return data.comments
     })
 }
+
+export const patchVoteByCommentId = (comment_id, vote) => {
+    const votes = vote === "like" ? 1 : -1
+
+    return instance.patch(`/comments/${comment_id}`, { inc_votes: votes })
+}

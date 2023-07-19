@@ -47,15 +47,11 @@ export const Header = () => {
 					</div>
 
 					{/* User Dropdown */}
-					<div className="flex flex-row items-center justify-between gap-8 sm:justify-end">
-						<button type="button">
-						 <Users className="group flex shrink-0 items-center rounded-lg transition" />
-						 </button>
-							<img alt={user.name} src={user.avatar_url} className="h-10 w-10 rounded-full object-cover"/>
-							<p className="ms-2 hidden text-left text-xs sm:block">
-								<strong className="block font-medium">{user.username}</strong>
-								<span className="text-gray-500">{user.name}</span>
-							</p>
+					<div className="">
+						<div className="hidden sm:flex flex-row items-center justify-between sm:justify-end gap-2">
+							<img alt={user.name} src={user.avatar_url} className="h-10 w-10 rounded-full object-cover shadow-md"/>
+							<Users />
+						</div>
 					</div>
 				</div>
 
