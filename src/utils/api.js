@@ -39,3 +39,14 @@ export const getCommentsByArticleId = (article_id) => {
         return data.comments
     })
 }
+
+export const postNewCommentForAnArticle = (article_id, username, body) => {
+    return instance
+        .post(`articles/${article_id}/comments`, {
+            username: username,
+            body: body,
+        })
+        .then(({ data }) => {
+            return data.comment
+        })
+}

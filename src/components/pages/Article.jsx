@@ -3,7 +3,7 @@ import { getArticleById } from "../../utils/api"
 import { useParams } from 'react-router-dom';
 import { formatDate } from "../../utils/formating";
 import { Error } from "../Error";
-import { CommentsList } from "../CommentsList";
+import { CommentsList, CommentsListForm } from "../index";
 
 export const Article = () => {
     const { article_id } = useParams()
@@ -62,6 +62,7 @@ export const Article = () => {
                 </div>
             </div>
         </section>
+       
         <CommentsList article_id={article_id}/>
     </>)
    }
