@@ -8,7 +8,20 @@ import HamburgerOpen from "../assets/hamburguer-open.svg"
 import Cross from "../assets/cross.svg"
 
 export const Header = () => {
-    const [topics, setTopics] = useState(["Coding", "Cooking", "Football"])
+    const [topics, setTopics] = useState([
+		{
+			slug: "coding",
+			description: "Code is love, code is life"
+		},
+		{
+			slug: "football",
+			description: "FOOTIE!"
+		},
+		{
+			slug: "cooking",
+			description: "Hey good looking, what you got cooking?"
+		}
+	])
 
 	const { user } = useContext(UserContext)
 	
