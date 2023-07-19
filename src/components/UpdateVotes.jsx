@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { patchVotes } from "../utils/api";
 
-export const CommentsListItemVotes = ({ article_id , article_votes, comment_id, votes }) => {
+export const UpdateVotes = ({ article_id , article_votes, comment_id, votes }) => {
   const [userVote, setUserVote] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)

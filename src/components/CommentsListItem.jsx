@@ -1,5 +1,5 @@
 import { formatDate } from "../utils/formating";
-import { CommentsListItemVotes } from "."
+import { UpdateVotes } from "."
 
 export const CommentsListItem = ({ comment }) => {
   return (
@@ -10,7 +10,7 @@ export const CommentsListItem = ({ comment }) => {
       </time>
       <p className="text-gray-600 mt-2 w-[80%]">{comment.body}</p>
 
-      <CommentsListItemVotes comment_id={comment.comment_id} votes={comment.votes} />
+      <UpdateVotes comment_id={comment.comment_id} votes={comment.votes} />
     </li>
   )
 }
