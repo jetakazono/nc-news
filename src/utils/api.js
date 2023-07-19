@@ -40,8 +40,12 @@ export const getCommentsByArticleId = (article_id) => {
     })
 }
 
-export const patchVoteByCommentId = (comment_id, vote) => {
+export const patchVotes = (comment_id, article_id, vote) => {
     const votes = vote === "like" ? 1 : -1
 
-    return instance.patch(`/comments/${comment_id}`, { inc_votes: votes })
+    if (comment_id) {
+        return instance.patch(`comments/${comment_id}`, { inc_votes: votes })
+    } else if (article_id) {
+        return instance.patch(`/articles/${article_id}`, { inc_votes: votes })
+    }
 }

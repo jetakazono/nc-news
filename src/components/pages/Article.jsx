@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { formatDate } from "../../utils/formating";
 import { Error } from "../Error";
 import { CommentsList } from "../CommentsList";
+import { CommentsListItemVotes } from "../CommentsListItemVotes";
 
 export const Article = () => {
     const { article_id } = useParams()
@@ -51,10 +52,7 @@ export const Article = () => {
                             </div>
 
                             <div className="flex gap-2">
-                                <svg className="w-6 h-6 text-red-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
-                                </svg>
-                                <span>{article.votes}</span>
+                                <CommentsListItemVotes article_votes={article.votes} article_id={article_id}/>
                                 <svg className="w-6 h-6 text-slate-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 5h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-2v3l-4-3H8m4-13H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2v3l4-3h4a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
                                 </svg>
