@@ -4,6 +4,7 @@ import { UserContext } from "../contexts/User"
 
 export const CommentsListForm = ({article_id, setComments}) => {
     const [newComment, setNewComment] = useState("")
+    const [error, setError] = useState(false)
     const maxLength = 250
     const { user } = useContext(UserContext)
 
@@ -20,6 +21,9 @@ export const CommentsListForm = ({article_id, setComments}) => {
             })
             setNewComment("")
         })
+        .catch((err) => {
+            setError(true)
+        })
     }
 
     return (
@@ -28,13 +32,14 @@ export const CommentsListForm = ({article_id, setComments}) => {
         </textarea>
         <div className="w-full flex justify-end">
             <div className="flex items-center justify-center px-4 text-gray-400 text-sm">{maxLength - newComment.length} left</div>
-            <button disabled={!newComment.length} 
-            data-disabled={!newComment.length}
+            <button disabled={!newComment.length || error} 
+            data-disabled={!newComment.length || error}
             className="data-[disabled=true]:cursor-not-allowed text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
             value='post-comment'>
                 Comment
             </button>
         </div>
+        {error && <p className="text-red-600 text-left">Oops! something went wrong, please try again</p>}
 </form>
 
     )   
