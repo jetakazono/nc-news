@@ -1,13 +1,12 @@
-import { useContext } from "react"
 import { UserContext } from "../contexts/User"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { Logo, NavBar, Users } from "."
 import { getTopics } from "../utils/api"
-import { menu } from "../utils/menu"
-import HamburgerOpen from "../assets/hamburguer-open.svg"
+import Hamburger from "../assets/hamburguer.svg"
 import Cross from "../assets/cross.svg"
 
 export const Header = () => {
+	const [menu, setMenu] = useState(false)
     const [topics, setTopics] = useState([
 		{
 			slug: "coding",
@@ -22,18 +21,24 @@ export const Header = () => {
 			description: "Hey good looking, what you got cooking?"
 		}
 	])
-
-	const { user } = useContext(UserContext)
+	const { user, setUser } = useContext(UserContext)
 	
      useEffect(() => {
         getTopics().then((result) => {
             setTopics(result)
         })
-     }, [])
+    }, [])
 
-	 useEffect(() => {
-		menu()
-	 }, [])
+	const login = () => {
+		setUser({
+			avatar_url : "https://vignette.wikia.nocookie.net/mrmen/images/4/4f/MR_JELLY_4A.jpg/revision/latest?cb=20180104121141",
+			name: "Jess Jelly",
+			username : "jessjelly"
+		})
+	}
+	const logout = () => {
+		setUser()
+	}
 	 
     return (
         <>
@@ -54,40 +59,37 @@ export const Header = () => {
 				<div className="flex md:gap-4">
 					{/* Hamburger menu (Mobile) */}
 					<div className="md:hidden">
-						<button className="navbar-burger flex items-center text-red-600 p-3">
-							<img src={HamburgerOpen} className="h-5" alt="menu-hamburguer" />
+						<button className="navbar-burger flex items-center text-red-600 p-3" onClick={() => setMenu(!menu)}>
+							<img  src={menu ? Cross : Hamburger} className="h-5" alt="menu-hamburguer" />
 						</button>
 					</div>
 
 					{/* User Dropdown */}
-					<div className="flex flex-row items-center justify-between gap-8 sm:justify-end">
+					{ user && <div className="flex flex-row items-center justify-between gap-8 sm:justify-end">
 						<button type="button">
-						 <Users className="group flex shrink-0 items-center rounded-lg transition" />
-						 </button>
-							<img alt={user.name} src={user.avatar_url} className="h-10 w-10 rounded-full object-cover"/>
-							<p className="ms-2 hidden text-left text-xs sm:block">
-								<strong className="block font-medium">{user.username}</strong>
-								<span className="text-gray-500">{user.name}</span>
-							</p>
-					</div>
+						<Users className="group flex shrink-0 items-center rounded-lg transition" />
+						</button>
+						<img alt={user.name} src={user.avatar_url} className="h-10 w-10 rounded-full object-cover"/>
+						<p className="ms-2 hidden text-left text-xs sm:block">
+							<strong className="block font-medium">{user.username}</strong>
+							<span className="text-gray-500">{user.name}</span>
+						</p>
+					</div>}
 				</div>
 
 			</nav>
         </header>
 
 		{/* Sidebar mobile */}
-		<div className="navbar-menu relative z-40 hidden">
+		<div className="navbar-menu relative z-40 data-[open=false]:hidden" data-open={menu}>
 			<div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
 			<nav className="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-20 px-6 bg-white border-r overflow-y-auto">
 				<NavBar topics={topics} className="flex flex-col capitalize gap-4"/>
-				<button className="navbar-close">
-					<img src={Cross} className="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500" alt="icon-cross" />
-				</button>
-				<div className="mt-auto">
-					<div className="pt-6">
-						<a className="block px-4 py-3 mb-3 text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-xl" href="#">Sign in</a>
-						<a className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700  rounded-xl" href="#">Sign Up</a>
-					</div>
+				<div className="mt-auto relative">
+					{ user 
+						? <button onClick={logout} className="w-full px-4 py-3 text-xs font-semibold bg-gray-200 hover:bg-gray-300 rounded-xl">Logout</button>
+						: <button onClick={login} className="w-full px-4 py-3 text-xs text-white font-semibold bg-gray-600 hover:bg-gray-700 rounded-xl">Login</button>
+					}
 				</div>
 			</nav>
 		</div>
