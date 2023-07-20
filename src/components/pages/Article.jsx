@@ -3,7 +3,7 @@ import { getArticleById } from "../../utils/api"
 import { useParams } from 'react-router-dom';
 import { formatDate } from "../../utils/formating";
 import { Error } from "../Error";
-import { CommentsList, CommentsListForm } from "../index";
+import { CommentsList } from "../index";
 
 export const Article = () => {
     const { article_id } = useParams()

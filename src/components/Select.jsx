@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Select = ({ options, name, value, onChange }) => {
     const [currValue, setCurrValue] = useState(value)
@@ -7,6 +7,8 @@ export const Select = ({ options, name, value, onChange }) => {
         setCurrValue(e.target.value)
         onChange(e.target.value, name)
     }
+
+    useEffect(() => setCurrValue(value),[value])
 
     return (<>        
         <label className="mr-6">

@@ -17,9 +17,8 @@ export const getArticles = (topic, filters) => {
     if (order) {
         baseURL += `order=${order}`
     }
-    return instance.get(baseURL).then(({ data }) => {
-        return data.articles
-    })
+
+    return instance.get(baseURL).then(({ data }) => data.articles)
 }
 
 export const getArticleById = (article_id) => {
