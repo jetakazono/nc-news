@@ -1,4 +1,4 @@
-import { formatDate } from "../utils/formating";
+import { formatDate } from "../utils";
 import { UpdateVotes } from "."
 
 export const CommentsListItem = ({ comment, article_id }) => {

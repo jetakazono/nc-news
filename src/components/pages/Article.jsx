@@ -3,8 +3,7 @@ import { getArticleById } from "../../utils/api"
 import { useParams } from 'react-router-dom';
 import { formatDate } from "../../utils/formating";
 import { Error } from "../Error";
-import { CommentsList } from "../CommentsList";
-import { UpdateVotes } from "../UpdateVotes";
+import { UpdateVotes, CommentsList } from ".";
 
 export const Article = () => {
     const { article_id } = useParams()

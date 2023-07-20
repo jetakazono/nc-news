@@ -48,3 +48,14 @@ export const patchVotes = (comment_id, article_id, vote) => {
 
     return instance.patch(`/articles/${article_id}`, { inc_votes: votes })
 }
+
+export const postNewCommentForAnArticle = (article_id, username, body) => {
+    return instance
+        .post(`articles/${article_id}/comments`, {
+            username: username,
+            body: body,
+        })
+        .then(({ data }) => {
+            return data.comment
+        })
+}

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import { CommentsListItem } from "./CommentsListItem"
+import { CommentsListItem, CommentsListForm } from "."
 import { getCommentsByArticleId } from "../utils/api"
 import { Error } from "./Error"
 
-export const CommentsList = ({article_id}) => {
+export const CommentsList = ({ article_id }) => {
     const [isLoading, setIsLoading] = useState(true)
     const [apiError, setApiError] = useState(null)
 
