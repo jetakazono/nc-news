@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import { CommentsListItem } from "./CommentsListItem"
+import { CommentsListItem, CommentsListForm } from "."
 import { getCommentsByArticleId } from "../utils/api"
 import { Error } from "./Error"
 
-export const CommentsList = ({article_id}) => {
+export const CommentsList = ({ article_id }) => {
     const [isLoading, setIsLoading] = useState(true)
     const [apiError, setApiError] = useState(null)
 
@@ -27,8 +27,9 @@ export const CommentsList = ({article_id}) => {
     } else {
         return (<>
             <section className="flex flex-col">
-                <h3 className="font-bold">Comments</h3>
+                <h3 className="font-bold text-lg">Comments</h3>
                 <ul className="w-full bg-white rounded-lg border p-2 my-4 mx-6">
+                <CommentsListForm article_id={article_id} setComments={setComments}/>
                     {comments.map((comment) => {
                         return <CommentsListItem key={comment.comment_id}  comment={comment} />
                     })}
