@@ -32,7 +32,6 @@ export const Header = () => {
 	const logout = () => {
 		setUser()
 	}
-	 
 
 	if (apiError) {
 		return <Error  
@@ -73,7 +72,6 @@ export const Header = () => {
 						</p>
 					</div>}
 				</div>
-
 			</nav>
         </header>
 
@@ -90,7 +88,5 @@ export const Header = () => {
 				</div>
 			</nav>
 		</div>
-    </>
-    )
-	}
+    </>)}
 }
