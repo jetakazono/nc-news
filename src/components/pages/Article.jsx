@@ -44,26 +44,29 @@ export const Article = () => {
                     <article className="text-gray-600">
                         <p>{article.body}</p>
                         <time dateTime={article.created_at} className="text-gray-500 text-xs">
-                                    {formatDate(article.created_at)}
-                                </time>
+                            {formatDate(article.created_at)}
+                        </time>
                         <footer className="flex justify-between gap-3 relative mt-10">
                             <div className="m-0 leading-0 flex gap-2 items-center text-base">
-                                <span className="text-gray-500">posted by: </span><p className="text-gray-800">{article.author}</p>
+                                <span className="text-gray-500">posted by: </span>
+                                <p className="text-gray-800">{article.author}</p>
                             </div>
 
-                            <div className="flex gap-2">
-                                <UpdateVotes article_votes={article.votes} article_id={article_id}/>
-                                <svg className="w-6 h-6 text-slate-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 5h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-2v3l-4-3H8m4-13H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2v3l4-3h4a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
-                                </svg>
-                                <span>{article.comment_count}</span>
+                            <div className="flex gap-8 items-center">
+                                <UpdateVotes votes={article.votes} article_id={article_id} />
+                                <div className="flex gap-2 items-center">
+                                    <svg className="w-6 h-6 text-slate-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 5h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-2v3l-4-3H8m4-13H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2v3l4-3h4a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                                    </svg>
+                                    <span>{article.comment_count}</span>
+                                </div>
                             </div>
                         </footer>
                     </article>
                 </div>
             </div>
         </section>
-        <CommentsList article_id={article_id}/>
+        <CommentsList article_id={article_id} />
     </>)
    }
     

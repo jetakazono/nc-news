@@ -27,11 +27,9 @@ export const CommentsList = ({article_id}) => {
     } else {
         return (<>
             <section className="flex flex-col">
-                <h3 className="font-bold">Comments</h3>
-                <ul className="w-full bg-white rounded-lg border p-2 my-4 mx-6">
-                    {comments.map((comment) => {
-                        return <CommentsListItem key={comment.comment_id}  comment={comment} />
-                    })}
+                <h3 className="font-bold mb-4">Comments</h3>
+                <ul className="w-full bg-white rounded-lg border grid gap-2 p-2 sm:gap-4 sm:p-4">
+                    {comments.map((comment) => <CommentsListItem article_id={article_id} key={comment.comment_id} comment={comment} />)}
                 </ul>
             </section>
             </>
