@@ -7,26 +7,19 @@ import Cross from "../assets/cross.svg"
 
 export const Header = () => {
 	const [menu, setMenu] = useState(false)
-    const [topics, setTopics] = useState([
-		{
-			slug: "coding",
-			description: "Code is love, code is life"
-		},
-		{
-			slug: "football",
-			description: "FOOTIE!"
-		},
-		{
-			slug: "cooking",
-			description: "Hey good looking, what you got cooking?"
-		}
-	])
+    const [topics, setTopics] = useState([])
+	const [isLoading, setIsLoading] = useState(true)
+    const [apiError, setApiError] = useState(null)
 	const { user, setUser } = useContext(UserContext)
-	
+
      useEffect(() => {
         getTopics().then((result) => {
             setTopics(result)
-        })
+			setIsLoading(false)
+        }).catch((err) => {
+			console.log(err)
+			setApiError(err)
+		})
     }, [])
 
 	const login = () => {
@@ -40,21 +33,25 @@ export const Header = () => {
 		setUser()
 	}
 	 
-    return (
-        <>
+
+	if (apiError) {
+		return <Error  
+		errorStatus={apiError.response.status} 
+		errorMessage={apiError.response.data.msg}/>
+	} else {
+        return (<>
         <header className="bg-gray-100 fixed z-50 w-full top-0">
 			<nav className="relative px-4 md:px-8 py-2 md:py-4 flex justify-between items-center">
 				<Logo />
 				{/* Menu (Desktop) */}
 				<NavBar topics={topics} className="capitalize hidden md:flex gap-4 m-0"/>
-
-				<div className="relative">
+			{isLoading && <div className="relative">
 					<input className="h-10 w-full rounded-lg border-none bg-white pe-10 ps-4 text-sm shadow-sm sm:w-56" id="search" type="search" placeholder="Search website..."/>
 					<button type="button" className="absolute end-1 top-1/2 -translate-y-1/2 rounded-md bg-gray-50 p-2 text-gray-600 transition hover:text-gray-700">
 						<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
 						<path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
 					</button>
-				</div>
+				</div>}
 
 				<div className="flex md:gap-4">
 					{/* Hamburger menu (Mobile) */}
@@ -95,4 +92,5 @@ export const Header = () => {
 		</div>
     </>
     )
+	}
 }
