@@ -20,7 +20,7 @@ export const Users = () => {
 
     return (
         <select onChange={handleInputChange} name="users" value={users.username} className="bg-transparent text-sm capitalize outline-none">
-            {users.map((user) => <option key={user.username} value={user.username}>{user.name}</option>)}
+            {users.map((user) => <option key={user.username} value={user.username}>{user.username}</option>)}
         </select> 
     )
 }   

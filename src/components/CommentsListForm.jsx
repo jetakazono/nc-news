@@ -1,8 +1,8 @@
 import { useState, useContext } from "react"
-import { postNewCommentForAnArticle } from "../utils/api"
+import { getArticleById, getCommentsByArticleId, postNewCommentForAnArticle } from "../utils/api"
 import { UserContext } from "../contexts/User"
 
-export const CommentsListForm = ({article_id, setComments}) => {
+export const CommentsListForm = ({article_id, setComments, setArticle}) => {
     const [newComment, setNewComment] = useState("")
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(false)
@@ -21,6 +21,7 @@ export const CommentsListForm = ({article_id, setComments}) => {
             setComments((currComments) => {
                 return [postedComment, ...currComments]
             })
+            getArticleById(article_id).then((art) => setArticle(art))
             setNewComment("")
             setIsLoading(false)
         })
@@ -35,7 +36,6 @@ export const CommentsListForm = ({article_id, setComments}) => {
     <form className="w-full px-3 my-2" onSubmit={handleSubmit}>
         <textarea className="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" name="body" placeholder='Type Your Comment' required value={newComment} onChange={handleOnChange} maxLength={maxLength}>
         </textarea>
-        {isLoading ? <p>loading...</p> : 
         <div className="w-full flex justify-end">
             <div className="flex items-center justify-center px-4 text-gray-400 text-sm">{maxLength - newComment.length} left</div>
             <button disabled={!newComment.length || error} 
@@ -44,7 +44,7 @@ export const CommentsListForm = ({article_id, setComments}) => {
             value='post-comment'>
                 Comment
             </button>
-        </div>}
+        </div>
         {error && <p className="text-red-600 text-left">Oops! something went wrong, please try again</p>}
 </form>
 

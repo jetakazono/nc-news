@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { UserContext } from "../contexts/User"
 import { patchVotes, storage } from "../utils"
 
-export const UpdateVotes = ({ art_id, article_id, comment_id, votes }) => {
+export const UpdateVotes = ({ article_id, comment_id, votes }) => {
   const [userVote, setUserVote] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)

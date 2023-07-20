@@ -59,3 +59,13 @@ export const postNewCommentForAnArticle = (article_id, username, body) => {
             return data.comment
         })
 }
+
+export const deleteUserComment = (comment_id) => {
+    return instance.delete(`/comments/${comment_id}`)
+}
+
+export const getUserByUserName = (username) => {
+    return instance.get(`/users/${username}`).then(({ data }) => {
+        return data.user
+    })
+}
