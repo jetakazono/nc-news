@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react"
-import { getArticles } from "../../utils/api"
-import { ArticlesCard, Select } from "../index"
 import { useParams, useSearchParams } from 'react-router-dom';
-import { Error } from "../Error";
+import { getArticles } from "../../utils/api"
+import { ArticlesCard, Loader, Select, Error } from '../'
 
 export const Articles = () => {
     const [filterParams, setFilterParams] = useSearchParams();
-
     const [articles, setArticles] = useState([])
     const [apiError, setApiError] = useState(null)
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const sortByOptions = [{
         value: "created_at",
         label: "Date"
@@ -49,23 +47,35 @@ export const Articles = () => {
         setFilterParams(params);
     }
     
-    useEffect(() => {
+    const applyFilters = () => {
+        const params = new URLSearchParams(filterParams);
+        const { sortBy, order } = filters;
+        if(sortBy === 'created_at' && order === 'desc') return
+        
+        for (const key in filters) {
+            params.set(key, filters[key]);
+        }
+        setFilterParams(params);
+    }
+    
+    const loadData = () => {
+        setIsLoading(true)
         getArticles(topic === 'all' ? '' : topic, filters).then((articles) => {
             setArticles(articles)
             setIsLoading(false)
         }).catch((err) => {
-            console.log(err)
             setApiError(err)
         })
-    }, [topic, filters])
+    }
     
     useEffect(() => {
-        setFilters({
-            sortBy: "created_at",
-            order: "desc"
-        })
+        loadData()
+        applyFilters()
         setApiError(null)
     }, [topic])
+
+    useEffect(() => loadData(), [filters])
+
 
     if (apiError) {
         return <Error  
@@ -78,7 +88,9 @@ export const Articles = () => {
                 <Select options={sortByOptions} name="sortBy" value={filters.sortBy} onChange={filterChange} />
                 <Select options={orderOptions} name="order" value={filters.order} onChange={filterChange}/>
             </div>
-            { isLoading && (<p>Loading...</p>) }
+         
+            {isLoading && <Loader fixed />}
+
             <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                 {articles.map((article) => {
                     return  <ArticlesCard key={article.article_id} article={article} />

@@ -20,6 +20,7 @@ export const Users = () => {
 
     return (
         <select onChange={handleInputChange} name="users" value={users.username} className="bg-transparent text-sm capitalize outline-none">
+            <option key="SignOut" value="SignOut">Sign Out</option>
             {users.map((user) => <option key={user.username} value={user.username}>{user.username}</option>)}
         </select> 
     )

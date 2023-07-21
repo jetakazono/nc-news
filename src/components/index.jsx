@@ -1,4 +1,5 @@
 export { Logo } from "./Logo"
+export { Loader } from "./Loader"
 export { Header } from "./Header"
 export { NavBar } from "./NavBar"
 export { Articles } from "./pages/Articles"

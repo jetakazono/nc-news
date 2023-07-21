@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import toast from 'react-hot-toast';
 import { CommentsListItem, CommentsListForm } from "."
 import { getCommentsByArticleId } from "../utils/api"
 import { Error } from "./Error"
@@ -15,7 +16,10 @@ export const CommentsList = ({ setArticle, article_id}) => {
         .then((res) => {
             setComments(res)
             setIsLoading(false)
-    }).catch((err) => setApiError(err))
+    }).catch((err) => {
+        toast.error('Sorry, comments currently unavailable.');
+        setApiError(err)
+    })
     },[])
 
    if (apiError) {
