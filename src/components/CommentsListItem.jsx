@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 import { deleteUserComment, formatDate, getArticleById, getCommentsByArticleId, getUserByUserName } from "../utils";
 import { UpdateVotes } from "."
 import { UserContext } from "../contexts/User"
@@ -7,16 +8,23 @@ export const CommentsListItem = ({ comment, article_id, setComments, setArticle}
   const { user } = useContext(UserContext)
   const [author, setAuthor] = useState({})
   
-  const handleClick = (e) => {  
+  const handleClickDelete = (e) => {  
+
+    let confirmExclusion = "Are you sure?";
+    if (!confirm(confirmExclusion)) return 
+
     return deleteUserComment(comment.comment_id)
     .then((_) => {
       const promise = [getArticleById(article_id), getCommentsByArticleId(article_id)]
       Promise.all(promise).then((resolved) => {
         setArticle(resolved[0])
         setComments(resolved[1])
+        toast.success('Comment deleted.');
       })
       
-    }).catch(error => console.error(error))
+    }).catch(error => {
+      toast.error('Oops! something went wrong..');
+    })
   }
 
   useEffect(() => {
@@ -38,7 +46,7 @@ export const CommentsListItem = ({ comment, article_id, setComments, setArticle}
       <UpdateVotes article_id={article_id} comment_id={comment.comment_id} votes={comment.votes} />
       {user.username === comment.author && 
       <div className="w-full flex justify-end mt-3">
-            <button onClick={handleClick}
+            <button onClick={handleClickDelete}
             className=" text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 "
             value='btn-delete'>
                 Delete
