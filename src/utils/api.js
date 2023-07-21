@@ -4,16 +4,21 @@ const instance = axios.create({
     baseURL: "https://nc-news-api-tts7.onrender.com/api",
 })
 
-export const getArticles = (topic) => {
+export const getArticles = (topic, filters) => {
+    const { sortBy, order } = filters
+    let baseURL = `/articles?`
+
     if (topic) {
-        return instance.get(`/articles?topic=${topic}`).then(({ data }) => {
-            return data.articles
-        })
+        baseURL += `topic=${topic}&`
+    }
+    if (sortBy) {
+        baseURL += `sort_by=${sortBy}&`
+    }
+    if (order) {
+        baseURL += `order=${order}`
     }
 
-    return instance.get("/articles").then(({ data }) => {
-        return data.articles
-    })
+    return instance.get(baseURL).then(({ data }) => data.articles)
 }
 
 export const getArticleById = (article_id) => {

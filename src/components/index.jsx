@@ -11,3 +11,5 @@ export { CommentsList } from "./CommentsList"
 export { CommentsListItem } from "./CommentsListItem"
 export { UpdateVotes } from "./UpdateVotes"
 export { CommentsListForm } from "./CommentsListForm"
+export { Select } from "./Select"
+

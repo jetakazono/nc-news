@@ -6,7 +6,7 @@ export const NavBar = (props) => {
     return ( 
         <ul {...props}>
             <li key='home'>
-                <Link className=" text-[#eb1b24] hover:text-gray-950" to="/">Home</Link>
+                <Link className="text-sm text-gray-800 hover:text-gray-950" to="all">All</Link>
             </li>
             {topics.map((topic) => (
                 <li key={topic.slug}>
