@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react"
-import { getArticles } from "../../utils/api"
-import { ArticlesCard } from "../index"
 import { useParams, useSearchParams } from 'react-router-dom';
-import { Error } from "../Error";
-import { Loader, Select } from '../'
+import { getArticles } from "../../utils/api"
+import { ArticlesCard, Loader, Select, Error } from '../'
 
 export const Articles = () => {
     const [filterParams, setFilterParams] = useSearchParams();
     const [articles, setArticles] = useState([])
     const [apiError, setApiError] = useState(null)
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const sortByOptions = [{
         value: "created_at",
         label: "Date"
@@ -61,6 +59,7 @@ export const Articles = () => {
     }
     
     const loadData = () => {
+        setIsLoading(true)
         getArticles(topic === 'all' ? '' : topic, filters).then((articles) => {
             setArticles(articles)
             setIsLoading(false)
