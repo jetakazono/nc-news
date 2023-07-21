@@ -3,7 +3,7 @@ import { getArticleById } from "../../utils/api"
 import { useParams } from 'react-router-dom';
 import { formatDate } from "../../utils/formating";
 import { Error } from "../Error";
-import { UpdateVotes, CommentsList } from "../index";
+import { UpdateVotes, CommentsList, Loader } from "../index";
 
 export const Article = () => {
     const { article_id } = useParams()
@@ -26,7 +26,7 @@ export const Article = () => {
         errorStatus={apiError.response.status} 
         errorMessage={apiError.response.data.msg} />
     } else if (isLoading) {
-        return <p>Loading..</p>
+        return <Loader />
    } else {
     return (<>
         <section className="mb-10">

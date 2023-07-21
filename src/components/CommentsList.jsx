@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import toast from 'react-hot-toast';
-import { CommentsListItem, CommentsListForm } from "."
+import { CommentsListItem, CommentsListForm, Loader } from "."
 import { getCommentsByArticleId } from "../utils/api"
 import { Error } from "./Error"
 
@@ -25,13 +25,11 @@ export const CommentsList = ({ setArticle, article_id}) => {
    if (apiError) {
         return <Error  
             errorStatus={apiError.response.status} 
-            errorMessage={apiError.response.data.msg}
-        />
-    } else if (isLoading) {
-        return <p>Loading...</p>
-    } else {
+            errorMessage={apiError.response.data.msg}/>
+    } 
         return (<>
             <section className="flex flex-col">
+            { isLoading && <Loader />}
             <h3 className="font-bold text-lg">Comments</h3>
                 <ul className="w-full bg-white rounded-lg border grid gap-2 p-2 sm:gap-4 sm:p-4">
                 <CommentsListForm article_id={article_id} setComments={setComments} setArticle={setArticle}/>
@@ -39,6 +37,4 @@ export const CommentsList = ({ setArticle, article_id}) => {
                 </ul>
             </section>
             </>
-        )
-    }
-}
+        )}

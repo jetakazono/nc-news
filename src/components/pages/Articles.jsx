@@ -82,7 +82,7 @@ export const Articles = () => {
             errorStatus={apiError.response.status} 
             errorMessage={apiError.response.data.msg}
         />
-    } else {
+    } {isLoading && <Loader />
         return (<>
             <div className="mb-9 flex gap-8 justify-end">
                 <Select options={sortByOptions} name="sortBy" value={filters.sortBy} onChange={filterChange} />

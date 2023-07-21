@@ -1,6 +1,6 @@
 import toast from 'react-hot-toast';
 import { deleteUserComment, formatDate, getArticleById, getCommentsByArticleId, getUserByUserName } from "../utils";
-import { UpdateVotes } from "."
+import { Loader, UpdateVotes } from "."
 import { UserContext } from "../contexts/User"
 import { useContext, useEffect, useState} from "react";
 
@@ -34,7 +34,9 @@ export const CommentsListItem = ({ comment, article_id, setComments, setArticle}
       setAuthor(result)
     })
   },[])
-  
+  if (isLoading) {
+    <Loader />
+  }
   return (
     <li className="border rounded-md p-3">
       <img src={user && author.avatar_url} alt={`${author.username} avatar`}
