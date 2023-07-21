@@ -65,7 +65,7 @@ export const Article = () => {
                 </div>
             </div>
         </section>
-        <CommentsList article_id={article_id} />
+        <CommentsList setArticle={setArticle} article_id={article_id}/>
     </>)
    }
     
