@@ -1,10 +1,12 @@
 import { useState, useContext } from "react"
-import { postNewCommentForAnArticle } from "../utils/api"
+import { getArticleById, getCommentsByArticleId, postNewCommentForAnArticle } from "../utils/api"
 import { UserContext } from "../contexts/User"
 
-export const CommentsListForm = ({article_id, setComments}) => {
+export const CommentsListForm = ({article_id, setComments, setArticle}) => {
     const [newComment, setNewComment] = useState("")
+    const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(false)
+
     const maxLength = 250
     const { user } = useContext(UserContext)
 
@@ -19,13 +21,17 @@ export const CommentsListForm = ({article_id, setComments}) => {
             setComments((currComments) => {
                 return [postedComment, ...currComments]
             })
+            getArticleById(article_id).then((art) => setArticle(art))
             setNewComment("")
+            setIsLoading(false)
         })
         .catch((err) => {
             setError(true)
         })
     }
-
+    if (isLoading){
+        <p>loading...</p>
+    }
     return (
     <form className="w-full px-3 my-2" onSubmit={handleSubmit}>
         <textarea className="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" name="body" placeholder='Type Your Comment' required value={newComment} onChange={handleOnChange} maxLength={maxLength}>

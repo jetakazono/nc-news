@@ -8,9 +8,9 @@ export const NavBar = (props) => {
             <li key='home'>
                 <Link className="text-sm text-gray-800 hover:text-gray-950" to="all">All</Link>
             </li>
-            {topics.map((topic, index) => (
-                <li key={index}>
-                    <Link to={`/${topic.slug}`} className="text-sm text-gray-700 hover:text-gray-900">
+            {topics.map((topic) => (
+                <li key={topic.slug}>
+                    <Link to={`/${topic.slug}`} className=" text-gray-600 hover:text-gray-950 no-underline hover:underline">
                         {topic.slug}
                     </Link>
                 </li>

@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const instance = axios.create({
-    baseURL: "https://nc-news-api-tts7.onrender.com/api/",
+    baseURL: "https://nc-news-api-tts7.onrender.com/api",
 })
 
 export const getArticles = (topic, filters) => {
@@ -45,6 +45,15 @@ export const getCommentsByArticleId = (article_id) => {
     })
 }
 
+export const patchVotes = (comment_id, article_id, vote) => {
+    const votes = vote === "like" ? 1 : -1
+
+    if (comment_id)
+        return instance.patch(`/comments/${comment_id}`, { inc_votes: votes })
+
+    return instance.patch(`/articles/${article_id}`, { inc_votes: votes })
+}
+
 export const postNewCommentForAnArticle = (article_id, username, body) => {
     return instance
         .post(`articles/${article_id}/comments`, {
@@ -54,4 +63,14 @@ export const postNewCommentForAnArticle = (article_id, username, body) => {
         .then(({ data }) => {
             return data.comment
         })
+}
+
+export const deleteUserComment = (comment_id) => {
+    return instance.delete(`/comments/${comment_id}`)
+}
+
+export const getUserByUserName = (username) => {
+    return instance.get(`/users/${username}`).then(({ data }) => {
+        return data.user
+    })
 }

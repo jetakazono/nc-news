@@ -1,21 +1,49 @@
-import { formatDate } from "../utils/formating";
+import { deleteUserComment, formatDate, getArticleById, getCommentsByArticleId, getUserByUserName } from "../utils";
+import { UpdateVotes } from "."
+import { UserContext } from "../contexts/User"
+import { useContext, useEffect, useState} from "react";
 
-export const CommentsListItem = ({ comment }) => {
+export const CommentsListItem = ({ comment, article_id, setComments, setArticle}) => {
+  const { user } = useContext(UserContext)
+  const [author, setAuthor] = useState({})
   
-    return (
-        <li className="border rounded-md p-3 ml-3 my-3">
-          <h3 className="font-bold">{comment.author}</h3>
-          <p>{formatDate(comment.created_at)}</p>
-          <p className="text-gray-600 mt-2">{comment.body}</p>
-          <div className="flex justify-end p-4">
-            <button className="flex items-center ml-6">
-              <svg className="w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M11 0h1v3l3 7v8a2 2 0 0 1-2 2H5c-1.1 0-2.31-.84-2.7-1.88L0 12v-2a2 2 0 0 1 2-2h7V2a2 2 0 0 1 2-2zm6 10h3v10h-3V10z"/></svg>
+  const handleClick = (e) => {  
+    return deleteUserComment(comment.comment_id)
+    .then((_) => {
+      const promise = [getArticleById(article_id), getCommentsByArticleId(article_id)]
+      Promise.all(promise).then((resolved) => {
+        setArticle(resolved[0])
+        setComments(resolved[1])
+      })
+      
+    }).catch(error => console.error(error))
+  }
+
+  useEffect(() => {
+    getUserByUserName(comment.author).then((result) => {
+      setAuthor(result)
+    })
+  },[])
+  
+  return (
+    <li className="border rounded-md p-3">
+      <img src={author.avatar_url} alt={`${author.username} avatar`}
+        className="object-cover w-8 h-8 rounded-full 
+        border-2 border-red-600  shadow-red-800"/> 
+      <h3 className="font-bold">{comment.author}</h3>
+      <time dateTime={comment.created_at} className="block text-xs text-gray-500">
+        {formatDate(comment.created_at)}
+      </time>
+      <p className="text-gray-600 mt-2 w-[80%]">{comment.body}</p>
+      <UpdateVotes article_id={article_id} comment_id={comment.comment_id} votes={comment.votes} />
+      {user.username === comment.author && 
+      <div className="w-full flex justify-end mt-3">
+            <button onClick={handleClick}
+            className=" text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 "
+            value='btn-delete'>
+                Delete
             </button>
-            <span className="ml-2">{comment.votes}</span>
-            <button className="flex items-center ml-4">
-              <svg className="w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M11 20a2 2 0 0 1-2-2v-6H2a2 2 0 0 1-2-2V8l2.3-6.12A3.11 3.11 0 0 1 5 0h8a2 2 0 0 1 2 2v8l-3 7v3h-1zm6-10V0h3v10h-3z"/></svg>
-            </button>
-          </div>
-        </li>
-    )
+        </div>}
+    </li>
+  )
 }
