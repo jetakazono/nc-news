@@ -3,7 +3,7 @@ import { getArticles } from "../../utils/api"
 import { ArticlesCard } from "../index"
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Error } from "../Error";
-import { Loader } from '../'
+import { Loader, Select } from '../'
 
 export const Articles = () => {
     const [filterParams, setFilterParams] = useSearchParams();

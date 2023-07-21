@@ -7,7 +7,7 @@ export const Loader = ({ className = '', width = 44, height = 44, color = "#4b55
     return ( 
         <div className={`${className} ${classNameByVariant} ${isFixed} z-50 bg-white bg-opacity-80 transition flex items-center justify-center`}>
             <svg width={width} height={height} viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" stroke={color}>
-                <g fill="none" fill-rule="evenodd" stroke-width="2">
+                <g fill="none" fillRule="evenodd" strokeWidth="2">
                     <circle cx="22" cy="22" r="1">
                         <animate attributeName="r"
                             begin="0s" dur="1.8s"
