@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 import { UserContext } from "../contexts/User"
 import { useEffect, useState, useContext } from "react"
 import { Logo, NavBar, Users } from "."
@@ -17,7 +18,7 @@ export const Header = () => {
             setTopics(result)
 			setIsLoading(false)
         }).catch((err) => {
-			console.log(err)
+			toast.error('Sorry, topics currently unavailable.');
 			setApiError(err)
 		})
     }, [])

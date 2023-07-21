@@ -1,5 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
 import { Header, Articles, Article, Footer, Error } from "./components"
+import { Toaster } from 'react-hot-toast';
+
+const toastOptions = {
+  position: "bottom-center",
+}
+
 function App() {
   return (
     <>
@@ -15,6 +21,7 @@ function App() {
         />} />
       </Routes>
     </main>
+    <Toaster {...toastOptions}  />
     <Footer/>
     </>
   )

@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
+import toast from 'react-hot-toast';
 import { UserContext } from "../contexts/User"
 import { patchVotes, storage } from "../utils"
 
 export const UpdateVotes = ({ article_id, comment_id, votes }) => {
   const [userVote, setUserVote] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
-  const [isError, setIsError] = useState(false)
   const [isLiked, setIsLiked] = useState(false)
   const [isDisliked, setIsDisliked] = useState(false)
   
@@ -14,7 +14,6 @@ export const UpdateVotes = ({ article_id, comment_id, votes }) => {
   const handleClickVote = (action) => {
     let newAction = action
 
-    setIsError(false)
     setIsLoading(true)
 
     if (action === 'like') {
@@ -46,11 +45,12 @@ export const UpdateVotes = ({ article_id, comment_id, votes }) => {
       setIsLoading(false)
     })
     .catch((err) => {
+      toast.error('Oops! something went wrong..');
       setUserVote((currVote) => {
         if(newAction ==="like") return currVote - 1
         else if(newAction === "dislike")return currVote + 1
       })
-      setIsError(true)
+      setIsLoading(false)
       setIsDisliked(false)
       setIsLiked(false)
     })
@@ -69,8 +69,6 @@ export const UpdateVotes = ({ article_id, comment_id, votes }) => {
             <svg data-active={isLiked} className="data-[active=true]:fill-green-400 w-4 h-4 relative -top-[1px] fill-slate-500 transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:fill-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M11 0h1v3l3 7v8a2 2 0 0 1-2 2H5c-1.1 0-2.31-.84-2.7-1.88L0 12v-2a2 2 0 0 1 2-2h7V2a2 2 0 0 1 2-2zm6 10h3v10h-3V10z"/></svg>
           </button>
         </div>
-        
-        {isError && <p className="text-red-700 text-right text-sm">something went wrong 🙃 please try again.</p>}
       </>
     )
 }

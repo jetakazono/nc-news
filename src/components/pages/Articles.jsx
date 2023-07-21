@@ -3,6 +3,7 @@ import { getArticles } from "../../utils/api"
 import { ArticlesCard } from "../index"
 import { useParams } from 'react-router-dom';
 import { Error } from "../Error";
+import { Loader } from '../'
 
 export const Articles = () => {
     const [articles, setArticles] = useState([])
@@ -12,6 +13,7 @@ export const Articles = () => {
     
     useEffect(() => {
         setApiError(null)
+        setIsLoading(true)
         getArticles(topic).then((articles) => {
             setArticles(articles)
             setIsLoading(false)
@@ -29,10 +31,10 @@ export const Articles = () => {
             errorStatus={apiError.response.status} 
             errorMessage={apiError.response.data.msg}
         />
-    } else if (isLoading) {
-        return <p>Loading...</p>
     } else {
         return (<>
+            {isLoading && <Loader fixed />}
+
             <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                 {articles.map((article) => {
                     return  <ArticlesCard key={article.article_id} article={article} />
