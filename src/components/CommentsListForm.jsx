@@ -42,7 +42,8 @@ export const CommentsListForm = ({article_id, setComments, setArticle}) => {
             { isLoading && <Loader />}
             <textarea className="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" name="body" placeholder='Type Your Comment' required value={newComment} onChange={handleOnChange} maxLength={maxLength}>
             </textarea>
-            <div className="w-full flex justify-end">
+            {!user && <p className="text-black">login to post a comment</p>}
+            {user && <div className="w-full flex justify-end">
                 <div className="flex items-center justify-center px-4 text-gray-400 text-sm">{maxLength - newComment.length} left</div>
                 
                 <button disabled={!newComment.length || isLoading} data-disabled={!newComment.length || isLoading}
@@ -50,7 +51,7 @@ export const CommentsListForm = ({article_id, setComments, setArticle}) => {
                 value='post-comment'>
                     Comment
                 </button>
-            </div>
+            </div>}
         </form>
     </>)   
 }
