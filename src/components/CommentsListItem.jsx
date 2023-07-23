@@ -39,15 +39,19 @@ export const CommentsListItem = ({ comment, article_id, setComments, setArticle}
   }
   return (
     <li className="border rounded-md p-3">
-      <img src={user && author.avatar_url} alt={`${author.username} avatar`}
-        className="object-cover w-8 h-8 rounded-full 
-        border-2 border-red-600  shadow-red-800"/> 
-      <h3 className="font-bold">{comment.author}</h3>
-      <time dateTime={comment.created_at} className="block text-xs text-gray-500">
-        {formatDate(comment.created_at)}
-      </time>
+      <div className='flex gap-3 items-center'>
+        {user && <img src={author.avatar_url} alt={`${author.username} avatar`}
+          className="h-8 w-8 rounded-full
+          border-2 border-primary  shadow-primary"/> }
+          <div className="">
+            <h3 className="font-bold">{comment.author}</h3>
+            <time dateTime={comment.created_at} className="block text-xs text-gray-500">
+              {formatDate(comment.created_at)}
+            </time>
+          </div>
+      </div>
       <p className="text-gray-600 mt-2 w-[80%]">{comment.body}</p>
-      <UpdateVotes article_id={article_id} comment_id={comment.comment_id} votes={comment.votes} />
+      {user && <UpdateVotes article_id={article_id} comment_id={comment.comment_id} votes={comment.votes} />}
       {user && user.username === comment.author && 
       <div className="w-full flex justify-end mt-3">
             <button disabled={isLoading} data-disabled={isLoading}

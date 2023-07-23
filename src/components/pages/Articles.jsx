@@ -37,16 +37,17 @@ export const Articles = () => {
     })
     const { topic } = useParams()
 
-    const filterChange = (value, name) => {
+    const filterChange = (key, value) => {
+        const val = value?.value || value
         setFilters({
             ...filters,
-            [name]: value
+            [key]: val
         })
         const params = new URLSearchParams(filterParams);
-        params.set(name, value);
+        params.set(key, val);
         setFilterParams(params);
     }
-    
+    const { sortBy, order } = filters;
     const applyFilters = () => {
         const params = new URLSearchParams(filterParams);
         const { sortBy, order } = filters;
@@ -60,7 +61,7 @@ export const Articles = () => {
     
     const loadData = () => {
         setIsLoading(true)
-        getArticles(topic === 'all' ? '' : topic, filters).then((articles) => {
+        getArticles(topic === 'all' ? '' : topic, sortBy, order).then((articles) => {
             setArticles(articles)
             setIsLoading(false)
         }).catch((err) => {
@@ -84,9 +85,18 @@ export const Articles = () => {
         />
     } {isLoading && <Loader />
         return (<>
-            <div className="mb-9 flex gap-8 justify-end">
-                <Select options={sortByOptions} name="sortBy" value={filters.sortBy} onChange={filterChange} />
-                <Select options={orderOptions} name="order" value={filters.order} onChange={filterChange}/>
+            <div className="mb-9 flex gap-8 justify-end content-center">
+                <Select options={sortByOptions} name="sortBy" value={filters.sortBy} onChange={filterChange} label={"Sort by: "} />
+                <Select className="block md:hidden lg:hidden" options={orderOptions} name="order" value={filters.order} onChange={filterChange}/>
+                <div className="text-gray-500 hidden md:block lg:block">
+                    <label className="mr-3 text-sm">Order:</label>
+                    <button onClick={() => filterChange('order', orderOptions[0].value)} className="rounded-l-lg border border-gray-200 bg-white text-sm px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-primary focus:z-10 focus:ring-1 focus:ring-primary focus:text-primary">
+                        {orderOptions[0].label}
+                    </button>
+                    <button onClick={() => filterChange('order', orderOptions[1].value)} className="rounded-r-md border border-gray-200 bg-white text-sm px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-primary focus:z-10 focus:ring-1 focus:ring-primary focus:text-primary">
+                        {orderOptions[1].label}
+                    </button>
+                </div>
             </div>
          
             {isLoading && <Loader fixed />}

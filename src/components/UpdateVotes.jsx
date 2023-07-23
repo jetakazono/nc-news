@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import toast from 'react-hot-toast';
-import { UserContext } from "../contexts/User"
+// import { UserContext } from "../contexts/User"
 import { patchVotes, storage } from "../utils"
 
 export const UpdateVotes = ({ article_id, comment_id, votes }) => {
@@ -9,7 +9,7 @@ export const UpdateVotes = ({ article_id, comment_id, votes }) => {
   const [isLiked, setIsLiked] = useState(false)
   const [isDisliked, setIsDisliked] = useState(false)
   
-  const { user } = useContext(UserContext)
+  // const { user } = useContext(UserContext)
 
   const handleClickVote = (action) => {
     let newAction = action
@@ -38,7 +38,7 @@ export const UpdateVotes = ({ article_id, comment_id, votes }) => {
       }
     }
     
-    storage.addVote(newAction, user.username, article_id, comment_id)
+    // storage.addVote(newAction, user.username, article_id, comment_id)
 
     patchVotes(comment_id, article_id, newAction)
     .then((_)=> {

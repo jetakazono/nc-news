@@ -1,10 +1,11 @@
 import toast from 'react-hot-toast';
 import { UserContext } from "../contexts/User"
 import { useEffect, useState, useContext } from "react"
-import { Logo, NavBar, Users } from "."
+import { Loader, Logo, NavBar, Users } from "."
 import { getTopics } from "../utils/api"
 import Hamburger from "../assets/hamburguer.svg"
 import Cross from "../assets/cross.svg"
+import { addItem, removeItem } from '../utils/storage';
 
 export const Header = () => {
 	const [menu, setMenu] = useState(false)
@@ -22,57 +23,53 @@ export const Header = () => {
 			setApiError(err)
 		})
     }, [])
-
+	
 	const login = () => {
 		setUser({
 			avatar_url : "https://vignette.wikia.nocookie.net/mrmen/images/4/4f/MR_JELLY_4A.jpg/revision/latest?cb=20180104121141",
 			name: "Jess Jelly",
 			username : "jessjelly"
 		})
+		addItem("user", user)
 	}
 	const logout = () => {
 		setUser()
+		removeItem("user")
 	}
 
 	if (apiError) {
 		return <Error  
 		errorStatus={apiError.response.status} 
 		errorMessage={apiError.response.data.msg}/>
-	} else {
+	} else if(isLoading) return <Loader />
+	else {
         return (<>
-        <header className="bg-gray-100 fixed z-50 w-full top-0">
-			<nav className="relative px-4 md:px-8 py-2 md:py-4 flex justify-between items-center">
-				<Logo />
+        <header className="bg-gray-100 fixed z-50 w-full top-0 h-14 md:h-16 flex items-center">
+			<nav className="relative px-2 md:px-8 flex justify-between items-center w-full">
+				<Logo /> 
 				{/* Menu (Desktop) */}
 				<NavBar topics={topics} className="capitalize hidden md:flex gap-4 m-0"/>
-			{isLoading && <div className="relative">
-					<input className="h-10 w-full rounded-lg border-none bg-white pe-10 ps-4 text-sm shadow-sm sm:w-56" id="search" type="search" placeholder="Search website..."/>
-					<button type="button" className="absolute end-1 top-1/2 -translate-y-1/2 rounded-md bg-gray-50 p-2 text-gray-600 transition hover:text-gray-700">
-						<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-						<path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+					<div className="flex md:gap-4">
+					{/* User Dropdown */}
+						{ user && <div className="flex flex-row items-center justify-between gap-0 sm:justify-end">
+							<button>
+								<Users className="group flex shrink-0 items-center rounded-lg transition" />
+							</button>
+							<img alt={user.name} src={user.avatar_url} className="border-2 border-primary  shadow-primary h-10 w-10 rounded-full"/>
+						</div>}
+					<button className='hidden md:hidden lg:block' onClick={user? logout : login}>
+						{user ? <svg className="h-6 w-6 text-primary"  width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />  <path d="M7 12h14l-3 -3m0 6l3 -3" /></svg>:
+						<svg className="h-6 w-6 text-gray-700"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+					  </svg>}
 					</button>
-				</div>}
-
-				<div className="flex md:gap-4">
 					{/* Hamburger menu (Mobile) */}
 					<div className="md:hidden">
 						<button className="navbar-burger flex items-center text-red-600 p-3" onClick={() => setMenu(!menu)}>
 							<img  src={menu ? Cross : Hamburger} className="h-5" alt="menu-hamburguer" />
 						</button>
 					</div>
-
-					{/* User Dropdown */}
-					{ user && <div className="flex flex-row items-center justify-between gap-8 sm:justify-end">
-						<button type="button">
-						<Users className="group flex shrink-0 items-center rounded-lg transition" />
-						</button>
-						<img alt={user.name} src={user.avatar_url} className="h-10 w-10 rounded-full object-cover"/>
-						<p className="ms-2 hidden text-left text-xs sm:block">
-							<strong className="block font-medium">{user.username}</strong>
-							<span className="text-gray-500">{user.name}</span>
-						</p>
-					</div>}
-				</div>
+					</div>
 			</nav>
         </header>
 

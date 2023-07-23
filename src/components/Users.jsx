@@ -1,27 +1,29 @@
 import { useEffect, useState, useContext } from "react"
 import { getUsers } from "../utils/api";
 import { UserContext } from "../contexts/User"
+import { storage } from "../utils";
+import { Select } from ".";
  
 export const Users = () => {
     const [users, setUsers] = useState([])
-    const { setUser } = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext)
 
     useEffect(() => {
         getUsers().then((result) => {
             setUsers(result)
+            const u = storage.getItem("user")
+            if(u) setUser(u)
         })
     }, [])
 
-    const handleInputChange = (e) => {
-        const userLoggedIn = e.target.value
-        const userLog = users.find(user => user.username === userLoggedIn)
+    const handleInputChange = (key, value) => {
+        const userLoggedIn = (value)
+        const userLog = users.find(user => user.username === userLoggedIn.username)
+        storage.setUser(userLog)
         setUser(userLog)
     }
 
     return (
-        <select onChange={handleInputChange} name="users" value={users.username} className="bg-transparent text-sm capitalize outline-none">
-            <option key="SignOut" value="SignOut">Sign Out</option>
-            {users.map((user) => <option key={user.username} value={user.username}>{user.username}</option>)}
-        </select> 
+        <Select options={users} name="users" value={user.username} valueKey="username" labelKey="username" onChange={handleInputChange} />
     )
 }   

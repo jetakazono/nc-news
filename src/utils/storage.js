@@ -2,9 +2,15 @@ export const getItem = (key) => {
     const storage = localStorage.getItem(key)
     return storage ? JSON.parse(storage) : null
 }
+
 export const addItem = (key, value) =>
     localStorage.setItem(key, JSON.stringify(value))
+
 export const removeItem = (key) => localStorage.removeItem(key)
+
+export const setUser = (user) => {
+    addItem("user", user)
+}
 
 export const addVote = (action, user, articleId, commentId) => {
     const key = "user"
