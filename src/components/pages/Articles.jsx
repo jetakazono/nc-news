@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams, useSearchParams } from 'react-router-dom';
 import { getArticles } from "../../utils/api"
 import { ArticlesCard, Loader, Select, Error } from '../'
+import { setUser } from "../../utils/storage";
+import { UserContext } from "../../contexts/User";
 
 export const Articles = () => {
     const [filterParams, setFilterParams] = useSearchParams();
@@ -76,7 +78,10 @@ export const Articles = () => {
     }, [topic])
 
     useEffect(() => loadData(), [filters])
-
+    const {user} = useContext(UserContext)
+    useEffect(() => {
+        setUser(user)
+    }, [])
 
     if (apiError) {
         return <Error  
