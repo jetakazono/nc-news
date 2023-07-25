@@ -4,8 +4,10 @@ import { getArticles } from "../../utils/api"
 import { ArticlesCard, Loader, Select, Error } from '../'
 import { setUser } from "../../utils/storage";
 import { UserContext } from "../../contexts/User";
+import { toast } from "react-hot-toast";
 
 export const Articles = () => {
+    const {user} = useContext(UserContext)
     const [filterParams, setFilterParams] = useSearchParams();
     const [articles, setArticles] = useState([])
     const [apiError, setApiError] = useState(null)
@@ -78,8 +80,9 @@ export const Articles = () => {
     }, [topic])
 
     useEffect(() => loadData(), [filters])
-    const {user} = useContext(UserContext)
+    
     useEffect(() => {
+        toast.success('It will take a bit to load please be patient.');
         setUser(user)
     }, [])
 
