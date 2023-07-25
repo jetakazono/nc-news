@@ -82,7 +82,6 @@ export const Articles = () => {
     useEffect(() => loadData(), [filters])
     
     useEffect(() => {
-        toast.success('It will take a bit to load please be patient.');
         setUser(user)
     }, [])
 
