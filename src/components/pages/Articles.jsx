@@ -4,7 +4,6 @@ import { getArticles } from "../../utils/api"
 import { ArticlesCard, Loader, Select, Error } from '../'
 import { setUser } from "../../utils/storage";
 import { UserContext } from "../../contexts/User";
-import { toast } from "react-hot-toast";
 
 export const Articles = () => {
     const {user} = useContext(UserContext)
@@ -105,7 +104,6 @@ export const Articles = () => {
                     </button>
                 </div>
             </div>
-         
             {isLoading && <Loader fixed />}
 
             <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">

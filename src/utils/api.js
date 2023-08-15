@@ -80,3 +80,18 @@ export const getUserByUserName = (username) => {
         return data.user
     })
 }
+
+export const postNewArticle = ({title, topic, author, body, article_img_url} ) => {
+    return instance
+        .post(`/articles`, {
+            title: title,
+            topic: topic,
+            author: author,
+            body: body,
+            article_img_url: article_img_url
+        })
+        .then(({ data }) => {
+            return data.article
+        })
+}
+

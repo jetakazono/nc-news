@@ -15,6 +15,7 @@ export const NavBar = (props) => {
                     </Link>
                 </li>
             ))}
+            <li><Link to={'/new-article'}></Link></li>
         </ul>
     )
 }

@@ -2,27 +2,18 @@ import toast from 'react-hot-toast';
 import { UserContext } from "../contexts/User"
 import { useEffect, useState, useContext } from "react"
 import { Loader, Logo, NavBar, Users } from "."
-import { getTopics } from "../utils/api"
+
 import Hamburger from "../assets/hamburguer.svg"
 import Cross from "../assets/cross.svg"
 import { addItem, removeItem } from '../utils/storage';
+import { Link } from 'react-router-dom';
 
-export const Header = () => {
+export const Header = ( { topics } ) => {
 	const [menu, setMenu] = useState(false)
-    const [topics, setTopics] = useState([])
-	const [isLoading, setIsLoading] = useState(true)
-    const [apiError, setApiError] = useState(null)
+	
 	const { user, setUser } = useContext(UserContext)
 
-     useEffect(() => {
-        getTopics().then((result) => {
-            setTopics(result)
-			setIsLoading(false)
-        }).catch((err) => {
-			toast.error('Sorry, topics currently unavailable.');
-			setApiError(err)
-		})
-    }, [])
+  
 	
 	const login = () => {
 		setUser({
@@ -37,18 +28,19 @@ export const Header = () => {
 		removeItem("user")
 	}
 
-	if (apiError) {
-		return <Error  
-		errorStatus={apiError.response.status} 
-		errorMessage={apiError.response.data.msg}/>
-	} else if(isLoading) return <Loader />
-	else {
+	// if (apiError) {
+	// 	return <Error  
+	// 	errorStatus={apiError.response.status} 
+	// 	errorMessage={apiError.response.data.msg}/>
+	// } else if(isLoading) return <Loader />
+	// else {
         return (<>
         <header className="bg-gray-100 fixed z-50 w-full top-0 h-14 md:h-16 flex items-center">
 			<nav className="relative px-2 md:px-8 flex justify-between items-center w-full">
 				<Logo /> 
 				{/* Menu (Desktop) */}
 				<NavBar topics={topics} className="capitalize hidden md:flex gap-4 m-0"/>
+				{user && <div><Link to={'/new-article'}>New Articles</Link></div>}
 					<div className="flex md:gap-4">
 					{/* User Dropdown */}
 						{ user && <div className="flex flex-row items-center justify-between gap-0 sm:justify-end">
@@ -61,7 +53,7 @@ export const Header = () => {
 						{user ? <svg className="h-6 w-6 text-primary"  width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />  <path d="M7 12h14l-3 -3m0 6l3 -3" /></svg>:
 						<svg className="h-6 w-6 text-gray-700"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
-					  </svg>}
+					</svg>}
 					</button>
 					{/* Hamburger menu (Mobile) */}
 					<div className="md:hidden">
@@ -86,5 +78,6 @@ export const Header = () => {
 				</div>
 			</nav>
 		</div>
-    </>)}
+    </>)
+	// }
 }
