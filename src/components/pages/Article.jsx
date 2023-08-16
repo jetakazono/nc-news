@@ -1,12 +1,14 @@
 import { useEffect, useState, useContext } from "react"
-import { getArticleById } from "../../utils/api"
-import { useParams } from 'react-router-dom';
+import { deleteUserArticle, getArticleById } from "../../utils/api"
+import { useParams, useNavigate } from 'react-router-dom';
 import { formatDate } from "../../utils/formating";
 import { Error } from "../Error";
 import { UpdateVotes, CommentsList, Loader } from "../index";
 import { UserContext } from "../../contexts/User";
+import { toast } from "react-hot-toast";
 
 export const Article = () => {
+    const navigate = useNavigate();
     const { article_id } = useParams()
     const [article, setArticle] = useState({})
     const [apiError, setApiError] = useState(null)
@@ -22,13 +24,32 @@ export const Article = () => {
         })
     },[article_id])
 
+    const handleArticleDelete = () => {
+    setIsLoading(true)
+    let confirmExclusion = "Are you sure?";
+
+    if (!confirm(confirmExclusion)) return 
+
+    deleteUserArticle(article_id)
+    .then((_) => {
+        toast.success('article deleted.', {
+            position:"top-right"
+        });
+        setIsLoading(false)
+        navigate('/')
+
+    }).catch(error => {
+        toast.error('Oops! something went wrong..');
+        setApiError(error)
+    })
+    }
     if(apiError){
         return <Error  
         errorStatus={apiError.response.status} 
         errorMessage={apiError.response.data.msg} />
     } else if (isLoading) {
         return <Loader />
-   } else {
+    } else {
     return (<>
         <section className="mb-10">
             <div className="grid gap-4 lg:gap-8">
@@ -36,8 +57,14 @@ export const Article = () => {
                     <img alt={article.title} src={article.article_img_url}
                     className="h-full w-full object-cover"/>
                 </div>
-                <div>
+                <div className="flex justify-between">
                     <span className="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-600">{article.topic}</span>
+                    {article.author === user.username && <button disabled={isLoading} data-disabled={isLoading}
+                    onClick={handleArticleDelete}
+                    className="data-[disabled=true]:cursor-not-allowed text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 "
+                    value='btn-delete'>
+                    Delete
+                    </button>}
                 </div>
                 <h2 className="text-2xl font-bold sm:text-4xl">{article.title}</h2>
                 <div className="lg:py-8">
@@ -67,7 +94,5 @@ export const Article = () => {
             </div>
         </section>
         <CommentsList setArticle={setArticle} article_id={article_id}/>
-    </>)
-   }
-    
+    </>)}
 }

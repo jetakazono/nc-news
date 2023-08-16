@@ -55,7 +55,7 @@ export const CommentsListItem = ({ comment, article_id, setComments, setArticle}
       {user && user.username === comment.author && 
       <div className="w-full flex justify-end mt-3">
             <button disabled={isLoading} data-disabled={isLoading}
-                   onClick={handleClickDelete}
+            onClick={handleClickDelete}
             className="data-[disabled=true]:cursor-not-allowed text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 "
             value='btn-delete'>
                 Delete

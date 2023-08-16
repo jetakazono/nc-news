@@ -75,6 +75,7 @@ export const deleteUserComment = (comment_id) => {
     return instance.delete(`/comments/${comment_id}`)
 }
 
+
 export const getUserByUserName = (username) => {
     return instance.get(`/users/${username}`).then(({ data }) => {
         return data.user
@@ -95,3 +96,6 @@ export const postNewArticle = ({title, topic, author, body, article_img_url} ) =
         })
 }
 
+export const deleteUserArticle = (article_id) => {
+    return instance.delete(`/articles/${article_id}`)
+}
