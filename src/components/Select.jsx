@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const Select = ({className, options, name, value, onChange, label, labelKey = "label", valueKey = "value"}) => {
     const [currValue, setCurrValue] = useState(value)
@@ -18,9 +18,8 @@ export const Select = ({className, options, name, value, onChange, label, labelK
             <select 
                 className={`${className} cursor-pointer outline-none border rounded-lg border-gray-200 text-sm px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-primary focus:ring-primary focus:text-primary`} 
                 name={name}
-                onChange={handleChange} 
-                value={currValue}
-            >
+                onChange={handleChange}
+                value={currValue}>
                 { options.map((item) => <option key={item[valueKey]} value={item[valueKey]}>
                     {item[labelKey]}
                 </option>)}
@@ -28,3 +27,16 @@ export const Select = ({className, options, name, value, onChange, label, labelK
         </label> 
     </>)
 }
+
+
+// const Select = React.forwardRef(({ onChange, onBlur, name, label }, ref) => (
+//   <>
+//     <label>{label}</label>
+//     <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
+//     { options.map((item) => <option key={item[valueKey]} value={item[valueKey]}>
+//       {item[labelKey]}
+//       </option>)}
+//     </select>
+//   </>
+// ));
+

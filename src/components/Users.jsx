@@ -3,7 +3,7 @@ import { getUsers } from "../utils/api";
 import { UserContext } from "../contexts/User"
 import { storage } from "../utils";
 import { Select } from ".";
- 
+
 export const Users = () => {
     const [users, setUsers] = useState([])
     const { user, setUser } = useContext(UserContext)
