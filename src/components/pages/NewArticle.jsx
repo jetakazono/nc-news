@@ -1,32 +1,20 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { UserContext } from "../../contexts/User"
-// import { Select } from "../Select"
 import { postNewArticle } from "../../utils"
 import { toast } from "react-hot-toast"
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-
+import {Editor} from "../index"
 
 export const NewArticle = ({ topics }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const { user } = useContext(UserContext)
     const [isLoading, setIsLoading] = useState(false)
-    const [topic, setTopic] = useState("")
-
-    const handleSelectChange = (value) => {
-        const topicSelected = topics.find(topic => topic.slug === value.target.value)
-        console.log(topicSelected, '<<<<<<')
-// 
-        setTopic(topicSelected.slug)
-        // else return
-    }
 
     const onSubmit = (data) => {
-        console.log(data)
             setIsLoading(true)
-
-            postNewArticle({topic:topic, author: user.username, ...data})
+            postNewArticle({author: user.username, ...data})
             .then((result)=> {
                 toast.success("Article published successfully!", {
                     position:"top-center"
@@ -58,11 +46,8 @@ export const NewArticle = ({ topics }) => {
         <div className="grid grid-cols-2 gap-5">
             <div>
                 <select 
-                {...register("topic", { required: true})} 
-                    onChange={handleSelectChange}
-                    className={`h-12 w-full cursor-pointer outline-none border rounded-lg border-gray-200 text-sm px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-primary focus:ring-primary focus:text-primary`} 
-                name='topic'
-                value={topic}>
+                    {...register("topic", { required: true})} 
+                    className={`h-12 w-full cursor-pointer outline-none border rounded-lg border-gray-200 text-sm px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-primary focus:ring-primary focus:text-primary`} >
                 <option value="" key="init">Select a topic</option>
                 { topics.map((topic) => <option key={topic.slug} value={topic.slug}>
                     {topic.slug}
@@ -76,7 +61,6 @@ export const NewArticle = ({ topics }) => {
                     className="relative block overflow-hidden rounded-md border border-gray-200 px-3 pt-3 shadow-sm">
                 <input
                     {...register("article_img_url", { required: true})}
-                    name='article_img_url'
                     type="url"
                     id="article_img_url"
                     placeholder="Image URL here"
@@ -87,22 +71,21 @@ export const NewArticle = ({ topics }) => {
                 {errors.article_img_url && <span className="text-red-800 italic text-xs text-right">don't forget your image!</span>}
             </div>
         </div>
-        <textarea 
+        {/* <textarea 
             {...register("body", { required: true})}
             placeholder="Tell your story..."
             name='body'
             className="border border-gray-200 h-40 rounded-md focus:outline-none p-2" 
             >
-        </textarea>
-        {errors.body && <span className="text-red-800 italic text-xs">hmm, looks like you forgot to write yor article.</span>}
-        <button 
-            type="submit"
-        disabled={isLoading} data-disabled={isLoading}
+        </textarea> */}
+        <Editor {...register("body", { required: true})} />
+            {errors.body && <span className="text-red-800 italic text-xs">hmm, looks like you forgot to write yor article.</span>}
+        <button type="submit"
+            disabled={isLoading} data-disabled={isLoading}
             className="data-[disabled=true]:cursor-not-allowed text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-lg text-sm px-10 py-2.5 text-center self-center"
         >
         Publish
         </button>
-        {/* <input type="submit"  /> */}
     </form>
     </section>
 }

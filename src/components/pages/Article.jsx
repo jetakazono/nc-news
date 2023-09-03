@@ -14,6 +14,7 @@ export const Article = () => {
     const [apiError, setApiError] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const {user} = useContext(UserContext)
+    
     useEffect(() => {
         getArticleById(article_id).then((singleArticle) => {
             setArticle(singleArticle)
@@ -59,12 +60,20 @@ export const Article = () => {
                 </div>
                 <div className="flex justify-between">
                     <span className="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-600">{article.topic}</span>
-                    {article.author === user.username && <button disabled={isLoading} data-disabled={isLoading}
-                    onClick={handleArticleDelete}
-                    className="data-[disabled=true]:cursor-not-allowed text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 "
-                    value='btn-delete'>
-                    Delete
-                    </button>}
+                    {article.author === user.username && <div className="flex gap-3">
+                        <button disabled={isLoading} data-disabled={isLoading}
+                        onClick={handleArticleDelete}
+                        className="data-[disabled=true]:cursor-not-allowed text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 text-center "
+                        value='btn-delete'>
+                        Delete
+                        </button>
+                        <button disabled={isLoading} data-disabled={isLoading}
+                        onClick={`/articles/${article.article_id}`}
+                        className="data-[disabled=true]:cursor-not-allowed text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 text-center"
+                        value='btn-delete'>
+                        Edit
+                        </button>
+                    </div>}
                 </div>
                 <h2 className="text-2xl font-bold sm:text-4xl">{article.title}</h2>
                 <div className="lg:py-8">

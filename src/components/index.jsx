@@ -14,5 +14,5 @@ export { UpdateVotes } from "./UpdateVotes"
 export { CommentsListForm } from "./CommentsListForm"
 export { Select } from "./Select"
 export { NewArticle } from "./pages/NewArticle"
-
+export { Editor } from "./Editor"
 

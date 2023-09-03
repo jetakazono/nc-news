@@ -46,7 +46,7 @@ export const CommentsListForm = ({article_id, setComments, setArticle}) => {
                 <div className="flex items-center justify-center px-4 text-gray-400 text-sm">{maxLength - newComment.length} left</div>
                 
                 <button disabled={!newComment.length || isLoading} data-disabled={!newComment.length || isLoading}
-                    className="data-[disabled=true]:cursor-not-allowed text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                    className="data-[disabled=true]:cursor-not-allowed text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 value='post-comment'>
                     Comment
                 </button>
