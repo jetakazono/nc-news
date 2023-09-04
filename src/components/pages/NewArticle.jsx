@@ -3,15 +3,19 @@ import { UserContext } from "../../contexts/User"
 import { postNewArticle } from "../../utils"
 import { toast } from "react-hot-toast"
 import { useNavigate } from 'react-router-dom';
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import {Editor} from "../index"
 
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+
 export const NewArticle = ({ topics }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, control, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const { user } = useContext(UserContext)
     const [isLoading, setIsLoading] = useState(false)
-
+    
     const onSubmit = (data) => {
             setIsLoading(true)
             postNewArticle({author: user.username, ...data})
@@ -78,8 +82,27 @@ export const NewArticle = ({ topics }) => {
             className="border border-gray-200 h-40 rounded-md focus:outline-none p-2" 
             >
         </textarea> */}
-        <Editor {...register("body", { required: true})} />
-            {errors.body && <span className="text-red-800 italic text-xs">hmm, looks like you forgot to write yor article.</span>}
+        {/* <Editor {...register("body", { required: true})} />
+        <ReactQuill theme="snow"  placeholder="tell your story..." {...register("body", { required: true})}/>
+            {errors.body && <span className="text-red-800 italic text-xs">hmm, looks like you forgot to write yor article.</span>} */}
+
+        <Controller
+        name="body"
+        control={control}
+        rules={{ required: 'article body is required' }}
+        render={({ field }) => (
+
+        <ReactQuill className="max-h-40 scroll-m-10 mb-14"
+        theme="snow"
+        value={field.value}
+        onChange={field.onChange}
+        onBlur={field.onBlur}
+        placeholder="tell your story..."
+        />
+        )}
+        />
+        {errors.body && <span className="text-red-800 italic text-xs">hmm, looks like you forgot to write yor article.</span>}
+
         <button type="submit"
             disabled={isLoading} data-disabled={isLoading}
             className="data-[disabled=true]:cursor-not-allowed text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-lg text-sm px-10 py-2.5 text-center self-center"

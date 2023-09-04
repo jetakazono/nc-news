@@ -6,5 +6,5 @@ import 'react-quill/dist/quill.snow.css';
 export const Editor = ()=> {
 const [value, setValue] = useState('');
 
-return <ReactQuill theme="snow" value={value}  placeholder="tell your story..."/>;
+return <ReactQuill theme="snow" value={value} onChange={setValue} placeholder="tell your story..."/>;
 }
