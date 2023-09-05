@@ -6,7 +6,8 @@ import { Error } from "../Error";
 import { UpdateVotes, CommentsList, Loader } from "../index";
 import { UserContext } from "../../contexts/User";
 import { toast } from "react-hot-toast";
-
+import dompurify from 'dompurify';
+import React from 'react';
 export const Article = () => {
     const navigate = useNavigate();
     const { article_id } = useParams()
@@ -14,9 +15,10 @@ export const Article = () => {
     const [apiError, setApiError] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const {user} = useContext(UserContext)
-    
+
     useEffect(() => {
         getArticleById(article_id).then((singleArticle) => {
+
             setArticle(singleArticle)
             setIsLoading(false)
         })
@@ -67,18 +69,21 @@ export const Article = () => {
                         value='btn-delete'>
                         Delete
                         </button>
-                        <button disabled={isLoading} data-disabled={isLoading}
+                        {/* <button disabled={isLoading} data-disabled={isLoading}
                         onClick={`/articles/${article.article_id}`}
                         className="data-[disabled=true]:cursor-not-allowed text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 text-center"
                         value='btn-delete'>
                         Edit
-                        </button>
+                        </button> */}
                     </div>}
                 </div>
                 <h2 className="text-2xl font-bold sm:text-4xl">{article.title}</h2>
                 <div className="lg:py-8">
                     <article className="text-gray-600">
-                        <p>{article.body}</p>
+                        {/* <p>{article.body}</p> */}
+                        {React.createElement('div', {
+                    dangerouslySetInnerHTML: { __html: dompurify.sanitize(article.body) }})}
+                    
                         <time dateTime={article.created_at} className="text-gray-500 text-xs">
                             {formatDate(article.created_at)}
                         </time>
