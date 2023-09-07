@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState, useContext } from "react"
 import { deleteUserArticle, getArticleById } from "../../utils/api"
 import { useParams, useNavigate } from 'react-router-dom';
@@ -7,7 +8,7 @@ import { UpdateVotes, CommentsList, Loader } from "../index";
 import { UserContext } from "../../contexts/User";
 import { toast } from "react-hot-toast";
 import dompurify from 'dompurify';
-import React from 'react';
+
 export const Article = () => {
     const navigate = useNavigate();
     const { article_id } = useParams()
@@ -62,7 +63,7 @@ export const Article = () => {
                 </div>
                 <div className="flex justify-between">
                     <span className="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-600">{article.topic}</span>
-                    {article.author === user.username && <div className="flex gap-3">
+                    { user ?  article.author === user.username : <div className="flex gap-3">
                         <button disabled={isLoading} data-disabled={isLoading}
                         onClick={handleArticleDelete}
                         className="data-[disabled=true]:cursor-not-allowed text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 text-center "
@@ -75,7 +76,7 @@ export const Article = () => {
                         value='btn-delete'>
                         Edit
                         </button> */}
-                    </div>}
+                    </div> }
                 </div>
                 <h2 className="text-2xl font-bold sm:text-4xl">{article.title}</h2>
                 <div className="lg:py-8">
