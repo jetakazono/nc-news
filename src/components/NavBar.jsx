@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom"
+import { UserContext } from "../contexts/User"
+import { useContext } from "react"
 
 export const NavBar = (props) => {
     const { topics } = props
-
+    const { user } = useContext(UserContext)
+    const test = () =>{
+        
+    }
     return ( 
         <ul {...props}>
             <li key='home'>
@@ -15,7 +20,7 @@ export const NavBar = (props) => {
                     </Link>
                 </li>
             ))}
-            <li><Link to={'/new-article'}></Link></li>
+            {user && <li className='text-gray-600 hover:text-primary'><Link onClick={test} to={'/new-article'}>New Articles</Link></li>}
         </ul>
     )
 }

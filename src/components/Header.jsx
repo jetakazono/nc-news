@@ -40,7 +40,7 @@ export const Header = ( { topics } ) => {
 				<Logo /> 
 				{/* Menu (Desktop) */}
 				<NavBar topics={topics} className="capitalize hidden md:flex gap-4 m-0"/>
-				{user && <div><Link to={'/new-article'}>New Articles</Link></div>}
+				{/* {user && <div className='hidden'><Link to={'/new-article'}>New Articles</Link></div>} */}
 					<div className="flex md:gap-4">
 					{/* User Dropdown */}
 						{ user && <div className="flex flex-row items-center justify-between gap-0 sm:justify-end">
