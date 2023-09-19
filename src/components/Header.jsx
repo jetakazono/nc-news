@@ -6,13 +6,11 @@ import { Loader, Logo, NavBar, Users } from "."
 import Hamburger from "../assets/hamburguer.svg"
 import Cross from "../assets/cross.svg"
 import { addItem, removeItem } from '../utils/storage';
-import { Link } from 'react-router-dom';
 
 export const Header = ( { topics } ) => {
 	const [menu, setMenu] = useState(false)
 	
 	const { user, setUser } = useContext(UserContext)
-
   
 	
 	const login = () => {
@@ -40,7 +38,7 @@ export const Header = ( { topics } ) => {
 				<Logo /> 
 				{/* Menu (Desktop) */}
 				<NavBar topics={topics} className="capitalize hidden md:flex gap-4 m-0"/>
-				{/* {user && <div className='hidden'><Link to={'/new-article'}>New Articles</Link></div>} */}
+				
 					<div className="flex md:gap-4">
 					{/* User Dropdown */}
 						{ user && <div className="flex flex-row items-center justify-between gap-0 sm:justify-end">
